@@ -1,0 +1,65 @@
+# Every value is tagged:  [PAPER] stated in the paper | [ASSUMED] not stated, chosen by us (see docs/DEVIATIONS.md)
+data:
+  root: data/processed
+  feature_root: data/features
+  splits_dir: splits
+  session_gap_days: 30        # [PAPER]
+  max_nonresponse: 3          # [PAPER]
+  min_session_len: 3          # [PAPER]
+  split_ratio: [0.8, 0.1, 0.1]  # [PAPER] 8:1:1 global chronological
+  max_len: 200                # [ASSUMED] paper symbol lost
+model:
+  d: 64                       # [ASSUMED] paper symbol lost
+  hg_layers: 3                # [PAPER] L_conv = 3
+  hg_k: 10                    # [PAPER] neighbour size k = 10
+  d_state: 8                  # [ASSUMED]
+  d_conv: 4                   # [ASSUMED]
+  window_w: 10                # [PAPER] backward window w = 10
+  ctx_window_wc: 5            # [PAPER] w_c = 5
+  moe_topk: 3                 # [ASSUMED] Top-K value lost in text
+  n_heads: 4                  # [ASSUMED]
+  dropout: 0.1                # [ASSUMED]
+  time_buckets: 24            # [ASSUMED]
+  err_lookback: 5             # [PAPER] Appendix A K = 5
+  err_decay: 0.8              # [PAPER] Appendix A
+  gain_forget: 0.1            # [PAPER] Appendix A
+  encoder: mamba              # mamba | transformer   (transformer = ablation Var 5 / SASRec-style baseline)
+  # ablation switches (all True = full model)
+  use_concept_hyperedges: true   # Var 1
+  use_degree_norm: true          # Var 2
+  use_modal_residual: true       # Var 3
+  use_backward: true             # Var 4
+  use_causal_attn_expert: true   # Var 6
+  use_moe: true
+  use_time_emb: true
+train:
+  batch_size: 256             # [PAPER]
+  lr: 1.0e-3                  # [ASSUMED]
+  weight_decay: 1.0e-5        # [ASSUMED]
+  max_epochs: 100             # [ASSUMED]
+  warmup_epochs: 3            # [ASSUMED]
+  patience: 15                # [PAPER]
+  grad_clip: 1.0              # [PAPER]
+  lambda_rank: 0.2            # [PAPER]
+  lambda_cl: 0.1              # [PAPER]
+  lambda_ent: 0.05            # [PAPER]
+  tau: 0.2                    # [PAPER] InfoNCE temperature
+  use_entropy_reg: true       # Var 7
+  use_cl: true                # Var 8
+  cl_max_items: 1024          # [ASSUMED]
+  num_workers: 0
+planner:
+  n_candidates: 30            # [ASSUMED] N lost in text
+  beam_width: 3               # [PAPER] B = 3
+  path_len: 5                 # [PAPER]
+  lambda_con: 0.1             # [PAPER]
+  use_smooth: true            # Var 9
+  use_reflection: true        # Var 10
+  eps: 1.0e-6                 # [PAPER]
+  n_weak_concepts: 3          # [ASSUMED] heuristic phase plan = targets U weakest concepts
+  max_eval_learners: 300      # [ASSUMED]
+  retrieval_topM: 3           # [ASSUMED]
+  beta_value: 0.5             # [PAPER] default 0.5
+  value_lr: 0.3               # [ASSUMED]
+  bias_threshold: 0.25        # [PAPER] Sec III-E
+  bias_min_events: 5          # [ASSUMED]

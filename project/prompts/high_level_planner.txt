@@ -1,0 +1,6 @@
+[RECONSTRUCTED: the paper mentions chain-of-thought high-level planning with retrieved experiences but does not give the prompt.]
+Learner capability profile: {profile}
+Target concepts: {targets}
+Retrieved high-value experiences:
+{experiences}
+Think step by step and output a global interdisciplinary progression outline (music theory -> acoustics -> mathematics -> target) as JSON: {{"outline": ["...", "..."]}}

@@ -1,0 +1,10 @@
+name: musichg
+channels: [pytorch, nvidia, conda-forge]
+dependencies:
+  - python=3.10
+  - pytorch=2.3.*
+  - pytorch-cuda=12.1
+  - pip
+  - pip:
+      - -r requirements.txt
+      - -e .

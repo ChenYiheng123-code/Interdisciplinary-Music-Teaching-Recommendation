@@ -1,0 +1,8 @@
+[RECONSTRUCTED from Appendix C's field list; NOT used by the default numerical pipeline, which selects items by beam search. Provided for the optional LLM-actor ablation.]
+SYSTEM: Output items MUST belong to the candidate list below. Output strictly JSON.
+PHASE PLAN: {phase_plan}
+CANDIDATES (name | estimated pass rate | description):
+{candidates}
+DIAGNOSTIC CONCLUSION: {diagnosis}
+CONSTRAINTS: keep diversity across disciplines; avoid repeating an item.
+Return {{"item": "<candidate name>", "reason": "<one sentence>"}}
